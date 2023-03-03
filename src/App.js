@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  SandpackProvider,
+  SandpackLayout,
+  SandpackFileExplorer,
+  SandpackCodeEditor,
+  SandpackPreview
+} from "@codesandbox/sandpack-react"
+// import { monokaiPro } from "@codesandbox/sandpack-themes"
+import './App.css'
 
-function App() {
+const App = () => {
+  const files = {}
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <SandpackProvider
+      files={files} 
+      // theme={monokaiPro} 
+      template="vite-vue"
+      options={{
+        classes: {
+          "sp-layout": 'code-editor'
+        }
+      }}
+    >
+      <SandpackLayout>
+        <SandpackFileExplorer />
+        <SandpackCodeEditor closableTabs showTabs />
+        <SandpackPreview />
+      </SandpackLayout>
+    </SandpackProvider>
+  )  
 }
 
-export default App;
+export default App
