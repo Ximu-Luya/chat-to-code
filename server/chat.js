@@ -12,22 +12,28 @@ const openai = new OpenAIApi(configuration)
  */
 router.get('/chat', async function (req, res) {
   const message = req.query.message
-  if (!global.messageLog) global.messageLog = [{"role": "system", "content": "你是一聊天AI"}]
-  global.messageLog.push({"role": "user", "content": message})
+  if (!global.messageLog) {
+    global.messageLog = [
+      { "role": "system", "content": "你是一聊天AI" },
+      { "role": "user", "content": "你好" },
+      { "role": "gpt", "content": "你好，我是一个聊天机器人" },
+    ]
+  }
 
   try {
     console.log('└ 请求中')
+    let messageLog = global.messageLog.concat([{"role": "user", "content": message}])
     
     const response = await openai.createCompletion({
       model: "gpt-3.5-turbo",
-      prompt: global.messageLog,
-      max_tokens: 4096,
-      temperature: 0.7,
+      messages: messageLog,
+      max_tokens: 4096, 
       stop: null,
+      temperature: 0.7
     })
     console.log('└ OpenAI接口响应成功')
-    const responseText = response.data.choices[0].test
-    global.messageLog.push({"role": "ai", "content": responseText})
+    const responseText = response.data.choices[0].message.content
+    global.messageLog = messageLog
 
     return res.json({ code: 0, data: responseText, time: dayjs().format("YYYY-MM-DD HH:MM:ss") })
   } catch (err) {
