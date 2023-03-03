@@ -1,3 +1,22 @@
-.code-editor {
+.sp-layout {
   --sp-layout-height: 100vh;
+}
+
+.sp-layout>* {
+  flex-basis: 50%;
+}
+
+.chat-and-code {
+  display: flex;
+  flex-direction: column;
+}
+
+.code-area {
+  display: flex;
+  flex-basis: 50%;
+}
+
+.sp-file-explorer {
+  flex: 1 0 0%;
+  min-width: 200px;
 }

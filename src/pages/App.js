@@ -5,6 +5,7 @@ import {
   SandpackCodeEditor,
   SandpackPreview
 } from "@codesandbox/sandpack-react"
+import Chat from "../components/Chat.js"
 // import { monokaiPro } from "@codesandbox/sandpack-themes"
 import './App.css'
 
@@ -16,15 +17,16 @@ const App = () => {
       files={files} 
       // theme={monokaiPro} 
       template="vite-vue"
-      options={{
-        classes: {
-          "sp-layout": 'code-editor'
-        }
-      }}
+      options={{}}
     >
       <SandpackLayout>
-        <SandpackFileExplorer />
-        <SandpackCodeEditor closableTabs showTabs />
+        <div className="chat-and-code">
+          <Chat />
+          <div className="code-area">
+            <SandpackFileExplorer />
+            <SandpackCodeEditor closableTabs showTabs />
+          </div>
+        </div>
         <SandpackPreview />
       </SandpackLayout>
     </SandpackProvider>
