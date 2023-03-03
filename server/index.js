@@ -5,6 +5,8 @@ const app = express()
 import cors from 'cors'
 app.use(cors())
 
+import "./config-load.js"
+
 // 控制台输出请求信息
 app.all(/\/api.*/, function (req, res, next) {
   const { headers, method, url } = req
@@ -16,8 +18,6 @@ app.all(/\/api.*/, function (req, res, next) {
 import router from './chat.js'
 app.use('/api', router)
 app.use('/', express.static('dist'))
-
-import "./config-load.js"
 
 const { port, host } = { port: 8067, host: '127.0.0.1' }
 app.listen(port, host, function () {
