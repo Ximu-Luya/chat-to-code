@@ -15,7 +15,7 @@ app.all(/\/api.*/, function (req, res, next) {
 })
 
 // 引入总路由
-import router from './chat.js'
+import router from './api.js'
 app.use('/api', router)
 app.use('/', express.static('dist'))
 
