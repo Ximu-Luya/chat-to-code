@@ -1,29 +1,48 @@
+import 'isomorphic-fetch'
 import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
 
-let api, apiModel
-
-(async () => {
+function selectApi() {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
-
-  if (global.conifg.OPENAI_API_KEY) {
+  
+  if (global.config.OPENAI_API_KEY) {
     const options = {
-      apiKey: global.conifg.OPENAI_API_KEY,
+      apiKey: global.config.OPENAI_API_KEY,
       debug: false,
     }
 
-    api = new ChatGPTAPI({ ...options })
-    apiModel = 'ChatGPTAPI'
+    return new ChatGPTAPI({ ...options })
   }
-  else if (global.conifg.OPENAI_ACCESS_TOKEN){
+  else if (global.config.OPENAI_ACCESS_TOKEN){
     const options = {
-      accessToken: global.conifg.OPENAI_ACCESS_TOKEN,
+      accessToken: global.config.OPENAI_ACCESS_TOKEN,
       debug: false,
     }
 
-    api = new ChatGPTUnofficialProxyAPI({ ...options })
-    apiModel = 'ChatGPTUnofficialProxyAPI'
+    return new ChatGPTUnofficialProxyAPI({ ...options })
   }
   else {
     throw "没有有效API KEY"
   }
-})()
+}
+
+export async function chat( message, lastContext) {
+  if (!message) {
+    throw "消息为空"
+  }
+  const api = selectApi()
+
+  try {
+    let options = { timeoutMs: 30 * 1000 }
+
+    if (lastContext) {
+      options = { ...lastContext }
+    }
+
+    const response = await api.sendMessage(message, { ...options })
+
+    return response
+  }
+  catch (error) {
+    throw error.message
+  }
+}

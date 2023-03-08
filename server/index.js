@@ -4,6 +4,10 @@ const app = express()
 // 解决跨域
 import cors from 'cors'
 app.use(cors())
+// body-parser 解析POST请求body的json格式数据
+import bodyParser from 'body-parser'
+app.use(bodyParser.json({ limit: '1mb' }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 import "./config-load.js"
 
